@@ -5,11 +5,12 @@ canvas.height = innerHeight;
 const PlayerColor = ['black', 'white'];
 const BoardSize = 15;
 var pieces = [];
-const StepTime = 1.5;
-const WinTime = 4.5;
+const StepTime = 0.3;
+const WinTime = 0.9;
 var TimeCount = 0;
 var PlayerChoiceIndex = 0;
 var GameState = false;
+var speedMulty = 5;
 
 
 //Shapes
@@ -609,18 +610,18 @@ class scoreBoard {
         this.target0Z = (this.choice == 0) ? 2 : 0.2;
         this.target1Z = (this.choice == 1) ? 2 : 0.2;
 
-        this.realX = this.realX + (this.targetX - this.realX) * 0.02;
-        this.realY = this.realY + (this.targetY - this.realY) * 0.02;
-        this.realZ = this.realZ + (this.targetZ - this.realZ) * 0.03;
-        this.realAlpha = this.realAlpha + (this.targetAlpha - this.realAlpha) * 0.03;
+        this.realX = this.realX + (this.targetX - this.realX) * 0.02 * speedMulty;
+        this.realY = this.realY + (this.targetY - this.realY) * 0.02 * speedMulty;
+        this.realZ = this.realZ + (this.targetZ - this.realZ) * 0.03 * speedMulty;
+        this.realAlpha = this.realAlpha + (this.targetAlpha - this.realAlpha) * 0.03 * speedMulty;
 
-        this.real0X = this.real0X + (this.target0X - this.real0X) * 0.02;
-        this.real0Y = this.real0Y + (this.target0Y - this.real0Y) * 0.02;
-        this.real0Z = this.real0Z + (this.target0Z - this.real0Z) * 0.1;
+        this.real0X = this.real0X + (this.target0X - this.real0X) * 0.02 * speedMulty;
+        this.real0Y = this.real0Y + (this.target0Y - this.real0Y) * 0.02 * speedMulty;
+        this.real0Z = this.real0Z + (this.target0Z - this.real0Z) * 0.1 * speedMulty;
 
-        this.real1X = this.real1X + (this.target1X - this.real1X) * 0.02;
-        this.real1Y = this.real1Y + (this.target1Y - this.real1Y) * 0.02;
-        this.real1Z = this.real1Z + (this.target1Z - this.real1Z) * 0.1;
+        this.real1X = this.real1X + (this.target1X - this.real1X) * 0.02 * speedMulty;
+        this.real1Y = this.real1Y + (this.target1Y - this.real1Y) * 0.02 * speedMulty;
+        this.real1Z = this.real1Z + (this.target1Z - this.real1Z) * 0.1 * speedMulty;
     }
 }
 class winStroke {
@@ -723,8 +724,8 @@ class winStroke {
         c.stroke();
     }
     update() {
-        this.realWidth = this.realWidth + (this.targetWidth - this.realWidth) * 0.05;
-        this.realAlpha = this.realAlpha + (this.targetAlpha - this.realAlpha) * 0.05;
+        this.realWidth = this.realWidth + (this.targetWidth - this.realWidth) * 0.05 * speedMulty;
+        this.realAlpha = this.realAlpha + (this.targetAlpha - this.realAlpha) * 0.05 * speedMulty;
     }
 }
 class piece {
@@ -781,9 +782,9 @@ class piece {
     }
 
     update() {
-        this.realX = this.realX + (this.targetX + this.offsetX - this.realX) * 0.05;
-        this.realY = this.realY + (this.targetY + this.offsetX - this.realY) * 0.05;
-        this.realZ = this.realZ + (this.targetZ - this.realZ) * 0.015;
+        this.realX = this.realX + (this.targetX + this.offsetX - this.realX) * 0.05 * speedMulty;
+        this.realY = this.realY + (this.targetY + this.offsetX - this.realY) * 0.05 * speedMulty;
+        this.realZ = this.realZ + (this.targetZ - this.realZ) * 0.015 * speedMulty;
         this.draw();
     }
 }
@@ -813,9 +814,9 @@ class indicator {
     }
 
     update() {
-        this.realX = this.realX + (this.targetX - this.realX) * 0.1;
-        this.realY = this.realY + (this.targetY - this.realY) * 0.1;
-        this.realScale = this.realScale + (this.targetScale - this.realScale) * 0.1;
+        this.realX = this.realX + (this.targetX - this.realX) * 0.1 * speedMulty;
+        this.realY = this.realY + (this.targetY - this.realY) * 0.1 * speedMulty;
+        this.realScale = this.realScale + (this.targetScale - this.realScale) * 0.1 * speedMulty;
         this.draw();
     }
 }
@@ -837,7 +838,7 @@ addEventListener('touchend', TouchClickMission);
 addEventListener('touchmove', TouchMoveMission)
 addEventListener('click', MouseClickMission);
 addEventListener('mousemove', MouseMoveMission);
-function DoMove(x,y) {
+function DoMove(x, y) {
     let realPos = mousePos(x, y);
     let moveX = realPos[0];
     let moveY = realPos[1];
@@ -866,7 +867,7 @@ function DoMove(x,y) {
         }
     }
 }
-function DoClick(x,y) {
+function DoClick(x, y) {
     if (!GameState) {
 
         if (ScoreBoard.show) {
@@ -935,22 +936,22 @@ function DoClick(x,y) {
     }
 }
 
-function MouseMoveMission(event){
-    DoMove(event.clientX,event.clientY);
+function MouseMoveMission(event) {
+    DoMove(event.clientX, event.clientY);
 }
 
-function MouseClickMission(event){
-    DoClick(event.clientX,event.clientY);
+function MouseClickMission(event) {
+    DoClick(event.clientX, event.clientY);
 }
 
-function TouchMoveMission(event){
+function TouchMoveMission(event) {
     TouchX = event.touches[0].clientX;
     TouchY = event.touches[0].clientY;
-    DoMove(event.touches[0].clientX,event.touches[0].clientY);
+    DoMove(event.touches[0].clientX, event.touches[0].clientY);
 }
 
-function TouchClickMission(event){
-    DoClick(TouchX,TouchY);
+function TouchClickMission(event) {
+    DoClick(TouchX, TouchY);
 }
 
 
@@ -1033,23 +1034,23 @@ function drawGrid() {
     c.fillStyle = 'rgb(0,0,0,1)';
     c.beginPath();
     let H8 = piecePos(7, 7);
-    c.arc(H8[0], H8[1], pieceSize*0.1, 0, Math.PI * 2.0, false);
+    c.arc(H8[0], H8[1], pieceSize * 0.1, 0, Math.PI * 2.0, false);
     c.fill();
     c.beginPath();
     let D12 = piecePos(3, 3);
-    c.arc(D12[0], D12[1], pieceSize*0.1, 0, Math.PI * 2.0, false);
+    c.arc(D12[0], D12[1], pieceSize * 0.1, 0, Math.PI * 2.0, false);
     c.fill();
     c.beginPath();
     let D4 = piecePos(3, 11);
-    c.arc(D4[0], D4[1], pieceSize*0.1, 0, Math.PI * 2.0, false);
+    c.arc(D4[0], D4[1], pieceSize * 0.1, 0, Math.PI * 2.0, false);
     c.fill();
     c.beginPath();
     let L12 = piecePos(11, 3);
-    c.arc(L12[0], L12[1], pieceSize*0.1, 0, Math.PI * 2.0, false);
+    c.arc(L12[0], L12[1], pieceSize * 0.1, 0, Math.PI * 2.0, false);
     c.fill();
     c.beginPath();
     let L4 = piecePos(11, 11);
-    c.arc(L4[0], L4[1], pieceSize*0.1, 0, Math.PI * 2.0, false);
+    c.arc(L4[0], L4[1], pieceSize * 0.1, 0, Math.PI * 2.0, false);
     c.fill();
 }
 
